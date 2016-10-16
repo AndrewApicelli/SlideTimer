@@ -90,8 +90,8 @@ public class TimerWidgetListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
-        SlideTimerCollectionSingleton.getInstance().setCurrentTimer((SlideTimer) l.getItemAtPosition(position));
-        launchSwipeActivity(v);
+        SlideTimer theTimer = (SlideTimer) l.getItemAtPosition(position);
+        launchSwipeActivity(v, theTimer);
 
 
 //        Toast.makeText(getActivity().getApplicationContext(),
@@ -99,7 +99,8 @@ public class TimerWidgetListFragment extends ListFragment {
 //                .show();
     }
 
-    private void launchSwipeActivity(View v){
+    private void launchSwipeActivity(View v, SlideTimer timer){
+        SlideActivity.setIncomingTimer(timer);
         Intent intent = new Intent(getActivity(), SlideActivity.class);
         startActivity(intent);
     }

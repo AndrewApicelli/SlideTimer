@@ -118,6 +118,8 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
     private NotificationCompat.Builder notification;
     private SettingsController settingsController;
 
+    private static SlideTimer incomingTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +139,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         r = RingtoneManager.getRingtone(getApplicationContext(), defaultRingtoneUri);
 
-        slideTimer = SlideTimerCollectionSingleton.getInstance().getCurrentTimer();
+        slideTimer = incomingTimer;
         setSlideLabels();
 
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -441,6 +443,10 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setIncomingTimer(SlideTimer timer){
+        incomingTimer = timer;
     }
 
     public class SwipeCountDownTimer extends CountDownTimer{
