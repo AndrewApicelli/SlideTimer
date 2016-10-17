@@ -1,6 +1,5 @@
 package com.example.andrewapicelli.slidetimer;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,12 +11,11 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.ActivityCompat;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -98,6 +96,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (AUTO_HIDE) {
+                Log.i("TEST", "HERE RESET");
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
                 stopTimer();
                 clockText.setText("00:00");
@@ -153,7 +152,6 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
 
         settingsController = new SettingsController(this);
 
-//        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     private void createNotification(){
@@ -301,7 +299,6 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
                 Log.i("Single tap", "Timer paused");
                 timer = new SwipeCountDownTimer(millisLeft, 1000);
                 timer.start();
-                millisLeft = 0;
                 timerIsPaused = false;
                 mContentView.setBackgroundColor(Color.parseColor("#00E676"));
             }
@@ -369,26 +366,21 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
     }
 
     private void onSwipeRight(){
-        //30 seconds
         stopTimer();
-//        startTimer(30000);
         startTimer(slideTimer.rightMillis);
     }
 
     private void onSwipeLeft(){
-        //1 min
         stopTimer();
         startTimer(slideTimer.leftMillis);
     }
 
     private void onSwipeUp(){
-        //1 min 30 sec
         stopTimer();
         startTimer(slideTimer.upMillis);
     }
 
     private void onSwipeDown(){
-        //2 min
         stopTimer();
         startTimer(slideTimer.downMillis);
     }
@@ -454,7 +446,6 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         public SwipeCountDownTimer(long millisInFuture, long countDownInterval){
             super(millisInFuture, countDownInterval);
         }
-
 
         @Override
         public void onTick(long millisUntilFinished) {

@@ -1,20 +1,16 @@
 package com.example.andrewapicelli.slidetimer;
 
-import android.app.Activity;
-import android.app.Application;
+import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -40,6 +36,15 @@ public class TimerWidgetListFragment extends ListFragment {
         arrayAdapter = new TimerWidgetArrayAdapter(getActivity(), timers);
 
         setListAdapter(arrayAdapter);
+
+        this.getListView().setLongClickable(true);
+        this.getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                SlideTimer theTimer = (SlideTimer) parent.getItemAtPosition(position);
+                promptDelete(theTimer);
+                return true;
+            }
+        });
 
     }
 
@@ -70,13 +75,14 @@ public class TimerWidgetListFragment extends ListFragment {
 
         if(cursor.moveToFirst()){
             while (!cursor.isAfterLast()){
+                int id = cursor.getInt(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry._ID));
                 String title = cursor.getString(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_TITLE));
                 Long left = cursor.getLong(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_LEFT_MILLIS));
                 Long right = cursor.getLong(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_RIGHT_MILLIS));
                 Long up = cursor.getLong(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_UP_MILLIS));
                 Long down = cursor.getLong(cursor.getColumnIndex(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_DOWN_MILLIS));
 
-                SlideTimer st = new SlideTimer(title,left,right,up,down);
+                SlideTimer st = new SlideTimer(id, title,left,right,up,down);
                 timers.add(st);
 
                 cursor.moveToNext();
@@ -98,6 +104,8 @@ public class TimerWidgetListFragment extends ListFragment {
 //                "Click ListItem Number " + position, Toast.LENGTH_LONG)
 //                .show();
     }
+
+
 
     private void launchSwipeActivity(View v, SlideTimer timer){
         SlideActivity.setIncomingTimer(timer);
@@ -122,5 +130,30 @@ public class TimerWidgetListFragment extends ListFragment {
                     diff + " items removed", Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    private void promptDelete(final SlideTimer timer){
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        db.delete(SlideTimerContract.SlideTimerEntry.TABLE_NAME,
+                                SlideTimerContract.SlideTimerEntry._ID + "=" + timer.id, null);
+                            updateList();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
     }
 }

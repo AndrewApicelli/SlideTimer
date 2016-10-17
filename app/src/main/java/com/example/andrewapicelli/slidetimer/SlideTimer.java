@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SlideTimer {
 
+    int id;
     String name;
 
     long leftMillis;
@@ -19,7 +20,8 @@ public class SlideTimer {
     String upString;
     String downString;
 
-    public SlideTimer(String name, long leftMillis, long rightMillis, long upMillis, long downMillis){
+    public SlideTimer(int id, String name, long leftMillis, long rightMillis, long upMillis, long downMillis){
+        this.id = id;
         this.name = name;
         this.leftMillis = leftMillis;
         this.rightMillis = rightMillis;

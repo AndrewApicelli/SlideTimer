@@ -48,9 +48,11 @@ public class SettingsController implements View.OnClickListener {
 
     private void updateBrightness(boolean isEnabled){
 
-    }private void updateVolume(boolean isEnabled){
+    }
+    private void updateVolume(boolean isEnabled){
 
-    }private void updateRotation(boolean isEnabled){
+    }
+    private void updateRotation(boolean isEnabled){
         int test = isEnabled ? 1 : 0;
         if(ContextCompat.checkSelfPermission(slideActivity,
                 Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED){
