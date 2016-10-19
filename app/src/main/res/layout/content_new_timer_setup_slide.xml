@@ -27,16 +27,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/clock_text_large"
-            android:textSize="50sp"
-            android:id="@+id/clock_text_large"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:rotation = "90"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/time_right_string"
@@ -75,6 +65,27 @@
             android:id="@+id/time_bottom"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSave"
+            android:layout_alignTop="@+id/time_left"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Title"
+            android:ems="10"
+            android:layout_alignBottom="@+id/time_left"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textTitle"
+            android:singleLine="false"
+            android:gravity="center_vertical|center_horizontal" />
 
     </RelativeLayout>
 

@@ -28,8 +28,12 @@
             android:theme="@style/FullscreenTheme"
             android:launchMode="singleInstance"/>
         <activity
-            android:name=".NewTimerSetup"
-            android:label="@string/title_activity_new_timer_setup"
+        android:name=".NewTimerSetup"
+        android:label="@string/title_activity_new_timer_setup"
+        android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".NewTimerSetupSlide"
+            android:label="@string/title_activity_new_timer_setup_slide"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

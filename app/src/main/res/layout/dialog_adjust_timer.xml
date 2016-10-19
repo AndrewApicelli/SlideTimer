@@ -6,19 +6,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="2">
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:gravity="center_vertical|center_horizontal">
 
         <NumberPicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/numberPicker7"
+            android:id="@+id/numberPickerMin"
             android:layout_weight="1" />
 
         <NumberPicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/numberPicker8"
+            android:id="@+id/numberPickerSec"
             android:layout_weight="1" />
     </LinearLayout>
 

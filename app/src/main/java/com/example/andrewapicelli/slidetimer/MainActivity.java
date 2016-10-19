@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void launchNewTimerSetupActivity(View v){
-        Intent intent = new Intent(this, NewTimerSetup.class);
+        Intent intent = new Intent(this, NewTimerSetupSlide.class);
         startActivity(intent);
     }
 

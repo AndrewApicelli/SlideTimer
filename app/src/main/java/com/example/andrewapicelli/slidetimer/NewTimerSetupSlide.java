@@ -1,5 +1,7 @@
 package com.example.andrewapicelli.slidetimer;
 
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,29 +17,29 @@ import java.util.ArrayList;
 import static com.example.andrewapicelli.slidetimer.R.id.editTextTitle;
 import static com.example.andrewapicelli.slidetimer.R.id.time_right;
 
-public class NewTimerSetupSlide extends AppCompatActivity {
+public class NewTimerSetupSlide extends AppCompatActivity implements SetTimerDialogFragment.SetTimerDialogListener {
 
-    private ArrayList<EditText> alEditTexts;
     private SlideTimerDBHelper dbHelper;
     private SQLiteDatabase db;
     private TextView textLeft;
     private TextView textRight;
     private TextView textUp;
     private TextView textDown;
-    private Timer tLeft = new Timer(textLeft);
-    private Timer tRight= new Timer(textRight);
-    private Timer tUp = new Timer(textUp);
-    private Timer tDown = new Timer(textDown);
+    private EditText etTitle;
+    private Timer tLeft;
+    private Timer tRight;
+    private Timer tUp;
+    private Timer tDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_timer_setup);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_new_timer_setup_slide);
 
         dbHelper = new SlideTimerDBHelper(getApplicationContext());
         db =  dbHelper.getWritableDatabase();
+
+        etTitle = (EditText) findViewById(R.id.textTitle) ;
 
         textLeft = (TextView) findViewById(R.id.time_left);
         textLeft.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,11 @@ public class NewTimerSetupSlide extends AppCompatActivity {
             }
         });
 
+        tLeft = new Timer(textLeft);
+        tRight= new Timer(textRight);
+        tUp = new Timer(textUp);
+        tDown = new Timer(textDown);
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -77,7 +84,7 @@ public class NewTimerSetupSlide extends AppCompatActivity {
 //            }
 //        });
 
-        Button saveButton = (Button) findViewById(R.id.newTimerSaveButton);
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,9 +95,10 @@ public class NewTimerSetupSlide extends AppCompatActivity {
     }
 
     private void launchDialog(Timer timer){
-
-
-        timer.setMinSec(0, 0);
+        SetTimerDialogFragment newFragment = new SetTimerDialogFragment();
+        newFragment.setTimer(timer);
+        FragmentManager fm = getFragmentManager();
+        newFragment.show(fm, "Choose Timer");
     }
 
     private void save(){
@@ -100,7 +108,7 @@ public class NewTimerSetupSlide extends AppCompatActivity {
         long newTimerMillisDown = tDown.getTotalMilli();
 
         ContentValues values = new ContentValues();
-        //values.put(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_TITLE, editTextTitle.getText().toString());
+        values.put(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_TITLE, etTitle.getText().toString());
         values.put(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_LEFT_MILLIS, newTimerMillisLeft);
         values.put(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_RIGHT_MILLIS, newTimerMillisRight);
         values.put(SlideTimerContract.SlideTimerEntry.COLUMN_NAME_UP_MILLIS, newTimerMillisUp);
@@ -112,4 +120,12 @@ public class NewTimerSetupSlide extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
 }
