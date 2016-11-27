@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (id == R.id.action_help) {
             Log.i("Action", "Help");
+            genHelpDialog();
             return true;
         }
 
@@ -96,16 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void genHelpDialog(){
         AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
         adb.setTitle("How To Use");
-        StringBuffer sb = new StringBuffer();
-        sb.append("Welcome to SlideTimer!\n");
-        sb.append("\n");
-        sb.append("- Click the \"Launch Timer\" button to launch a new swipe timer.\n");
-        sb.append("- SWIPE RIGHT = 30 seconds\n");
-        sb.append("- SWIPE LEFT = 1 minute\n");
-        sb.append("- SWIPE UP = 1 minute 30 seconds\n");
-        sb.append("- SWIPE DOWN = 2 minutes\n");
-        sb.append("- Double tap for \"RESET TIMER\" button");
-        adb.setMessage(sb.toString());
+        String sb = "Welcome to SlideTimer!\n" +
+                "\n" +
+                "- Click the \"+\" button to add a new slide timer.\n" +
+                "- Choose a Title and Left, Right, Up and Down times.\n" +
+                "- Click save to store the timer.\n" +
+                "- From the main menu select the slide timer you'd like to use.\n" +
+                "- Swipe towards the time you'd like to start.\n" +
+                "- Double tap for \"Clear Timer\" button.";
+        adb.setMessage(sb);
         adb.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
