@@ -16,4 +16,7 @@
     <string name="title_activity_new_timer_setup">NewTimerSetup</string>
     <string name="title_activity_new_timer_setup_slide">NewTimerSetupSlide</string>
     <string name="add_timer_button_string">Add Button</string>
+
+    <string name="timer_finished">FINISHED!</string>
+    <string name="timer_zeroed">00:00</string>
 </resources>

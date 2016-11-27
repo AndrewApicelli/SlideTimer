@@ -3,6 +3,7 @@ package com.example.andrewapicelli.slidetimer;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -99,7 +101,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
                 Log.i("TEST", "HERE RESET");
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
                 stopTimer();
-                clockText.setText("00:00");
+                clockText.setText(R.string.timer_zeroed);
             }
             else{
                 Log.i("TEST", "AUTO_HIDE not working");
@@ -170,7 +172,17 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         resultIntent.setAction(Intent.ACTION_MAIN);
         resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(SlideActivity.this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(SlideActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
         notification.setContentIntent(resultPendingIntent);
 
 
@@ -448,7 +460,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
 
     public class SwipeCountDownTimer extends CountDownTimer{
 
-        public SwipeCountDownTimer(long millisInFuture, long countDownInterval){
+        SwipeCountDownTimer(long millisInFuture, long countDownInterval){
             super(millisInFuture, countDownInterval);
         }
 
@@ -466,7 +478,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         public void onFinish() {
             tryNotification();
             mContentView.setBackgroundColor(Color.parseColor("#F44336"));
-            clockText.setText("FINISHED!");
+            clockText.setText(R.string.timer_finished);
             timer = null;
         }
     }
