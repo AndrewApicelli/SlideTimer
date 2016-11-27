@@ -101,6 +101,9 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
                 stopTimer();
                 clockText.setText("00:00");
             }
+            else{
+                Log.i("TEST", "AUTO_HIDE not working");
+            }
             return false;
         }
     };
@@ -116,6 +119,8 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
     private SlideTimer slideTimer;
     private NotificationCompat.Builder notification;
     private SettingsController settingsController;
+
+    private Button resetButton;
 
     private static SlideTimer incomingTimer;
 
@@ -145,7 +150,7 @@ public class SlideActivity extends AppCompatActivity implements GestureDetector.
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
 
-        Button resetButton = (Button) findViewById(R.id.dummy_button);
+        resetButton = (Button) findViewById(R.id.reset_timer_button);
         resetButton.setOnTouchListener(mDelayHideTouchListener);
 
         createNotification();
